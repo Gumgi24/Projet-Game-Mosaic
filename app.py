@@ -8,6 +8,8 @@ import json
 from datetime import datetime
 import hashlib
 from dotenv import load_dotenv
+import signal
+import sys
 
 # Load environment variables
 load_dotenv()

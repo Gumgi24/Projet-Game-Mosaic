@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  game-backlog:
+    build: .
+    ports:
+      - "5001:5001"
+    environment:
+      - SECRET_KEY=your-secret-key-change-this-in-production
+      - GAME_BACKLOG_USER=admin
+      - GAME_BACKLOG_PASS_HASH=d9fa0274eb8c495bd5f05213d9f2e4dab0a7e3a6c5d283da57fb283bccb107d3
+      - AUTH_SALT=change-this-salt-in-production
+      - DATABASE_DIR=/app/data
+    volumes:
+      - ./data:/app/data
+    restart: unless-stopped

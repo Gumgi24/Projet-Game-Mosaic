@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  game-backlog:
+    build: .
+    ports:
+      - "5001:5001"
+    environment:
+      - SECRET_KEY=${SECRET_KEY}
+      - GAME_BACKLOG_USER=${GAME_BACKLOG_USER}
+      - GAME_BACKLOG_PASS_HASH=${GAME_BACKLOG_PASS_HASH}
+      - AUTH_SALT=${AUTH_SALT}
+      - DATABASE_DIR=/app/data
+    volumes:
+      - game-data:/app/data
+    restart: unless-stopped
+    networks:
+      - app-network
+
+volumes:
+  game-data:
+
+networks:
+  app-network:
+    driver: bridge

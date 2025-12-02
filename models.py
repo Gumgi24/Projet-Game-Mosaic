@@ -1,14 +1,19 @@
 import sqlite3
 import os
 
-DATABASE = 'games.db'
+# Use /app/data/games.db in Docker, games.db locally
+DATABASE_DIR = os.environ.get('DATABASE_DIR', '.')
+DATABASE_PATH = os.path.join(DATABASE_DIR, 'games.db')
 
 def get_db_connection():
-    conn = sqlite3.connect(DATABASE)
+    conn = sqlite3.connect(DATABASE_PATH)
     conn.row_factory = sqlite3.Row
     return conn
 
 def init_db():
+    # Ensure the database directory exists
+    os.makedirs(os.path.dirname(DATABASE_PATH) if os.path.dirname(DATABASE_PATH) else '.', exist_ok=True)
+    
     conn = get_db_connection()
     conn.execute('''
         CREATE TABLE IF NOT EXISTS games (

@@ -2,6 +2,41 @@
 
 A web application for managing a shared backlog of games to play with your partner. Built with Python Flask and Tailwind CSS, this app allows you to add games by their Steam ID and view them as beautiful vertical capsules.
 
+## Quick Deployment with Docker
+
+The easiest way to deploy this application is using Docker. Follow these steps:
+
+1. Install Docker:
+   - For macOS: Download [Docker Desktop for Mac](https://docs.docker.com/desktop/install/mac-install/)
+   - For Windows: Download [Docker Desktop for Windows](https://docs.docker.com/desktop/install/windows-install/)
+   - For Linux: Follow the [Docker Engine installation guide](https://docs.docker.com/engine/install/)
+
+2. Clone the repository:
+   ```bash
+   git clone <repository-url>
+   cd Projet-Game-Mosaic
+   ```
+
+3. Build and run with Docker Compose:
+   ```bash
+   docker-compose up -d
+   ```
+
+4. Access the application at `http://localhost:5001`
+
+5. Log in with the default credentials:
+   - Username: `admin`
+   - Password: `password`
+
+6. To stop the application:
+   ```bash
+   docker-compose down
+   ```
+
+For production deployment, you can either:
+1. Update the environment variables directly in `docker-compose.yml` with your own secure credentials, or
+2. Create a `.env` file (copy from `.env.example`) and use `docker-compose.prod.yml` which reads from environment variables.
+
 ## Features
 
 - **Game Dashboard**: View all games in your backlog as vertical capsules (similar to Steam library view)
@@ -38,6 +73,7 @@ A web application for managing a shared backlog of games to play with your partn
    ```
 
 3. Configure environment variables:
+   - Copy `.env.example` to `.env`: `cp .env.example .env`
    - Edit the `.env` file to set your preferred username and password
    - To change the password, generate a new SHA256 hash:
      ```bash
