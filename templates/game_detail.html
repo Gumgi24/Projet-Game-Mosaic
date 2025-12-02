@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+
+{% block title %}{{ game.name }} - Game Backlog{% endblock %}
+
+{% block content %}
+<div class="px-4 sm:px-0">
+    <div class="max-w-4xl mx-auto">
+        <div class="bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+            {% if game.image_url %}
+                <img src="{{ game.image_url }}" alt="{{ game.name }}" class="w-full object-cover max-h-64 sm:max-h-80">
+            {% endif %}
+            
+            <div class="p-6">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h1 class="text-3xl font-bold">{{ game.name }}</h1>
+                        <div class="mt-2 flex flex-wrap gap-2">
+                            {% if game.developer %}
+                                <span class="bg-gray-700 px-3 py-1 rounded-full text-sm">
+                                    <i class="fas fa-code mr-1"></i>{{ game.developer }}
+                                </span>
+                            {% endif %}
+                            {% if game.publisher %}
+                                <span class="bg-gray-700 px-3 py-1 rounded-full text-sm">
+                                    <i class="fas fa-building mr-1"></i>{{ game.publisher }}
+                                </span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <a href="{{ url_for('index') }}" class="text-gray-400 hover:text-white">
+                        <i class="fas fa-times text-2xl"></i>
+                    </a>
+                </div>
+                
+                <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <h2 class="text-xl font-semibold mb-3">Game Information</h2>
+                        <div class="space-y-3">
+                            {% if game.genre %}
+                                <div>
+                                    <span class="text-gray-400">Genre:</span>
+                                    <span class="ml-2">{{ game.genre }}</span>
+                                </div>
+                            {% endif %}
+                            
+                            {% if game.owners %}
+                                <div>
+                                    <span class="text-gray-400">Owners:</span>
+                                    <span class="ml-2">{{ game.owners }}</span>
+                                </div>
+                            {% endif %}
+                            
+                            {% if game.price is not none %}
+                                <div>
+                                    <span class="text-gray-400">Price:</span>
+                                    <span class="ml-2">
+                                        {% if game.price == "0" %}
+                                            Free to Play
+                                        {% else %}
+                                            ${{ "%.2f"|format(game.price|float/100) }}
+                                        {% endif %}
+                                    </span>
+                                </div>
+                            {% endif %}
+                            
+                            {% if game.added_date %}
+                                <div>
+                                    <span class="text-gray-400">Added to Backlog:</span>
+                                    <span class="ml-2">{{ game.added_date.split()[0] }}</span>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h2 class="text-xl font-semibold mb-3">Player Statistics</h2>
+                        <div class="space-y-3">
+                            {% if game.positive_reviews and game.negative_reviews %}
+                                {% set total_reviews = game.positive_reviews + game.negative_reviews %}
+                                {% set positive_percentage = (game.positive_reviews / total_reviews * 100) | int %}
+                                <div>
+                                    <div class="flex justify-between mb-1">
+                                        <span class="text-gray-400">Review Score:</span>
+                                        <span class="{% if positive_percentage >= 70 %}text-green-400{% elif positive_percentage >= 40 %}text-yellow-400{% else %}text-red-400{% endif %}">
+                                            {{ positive_percentage }}% Positive
+                                        </span>
+                                    </div>
+                                    <div class="w-full bg-gray-700 rounded-full h-2">
+                                        <div 
+                                            class="h-2 rounded-full {% if positive_percentage >= 70 %}bg-green-500{% elif positive_percentage >= 40 %}bg-yellow-500{% else %}bg-red-500{% endif %}" 
+                                            style="width: {{ positive_percentage }}%">
+                                        </div>
+                                    </div>
+                                    <div class="flex justify-between text-sm text-gray-400 mt-1">
+                                        <span>{{ "{:,}".format(game.positive_reviews) }} Positive</span>
+                                        <span>{{ "{:,}".format(game.negative_reviews) }} Negative</span>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            
+                            {% if game.average_playtime %}
+                                <div>
+                                    <span class="text-gray-400">Average Playtime:</span>
+                                    <span class="ml-2">
+                                        {% set hours = game.average_playtime // 60 %}
+                                        {% set minutes = game.average_playtime % 60 %}
+                                        {% if hours > 0 %}
+                                            {{ hours }} hour{{ 's' if hours != 1 else '' }}
+                                            {% if minutes > 0 %}{{ minutes }} minute{{ 's' if minutes != 1 else '' }}{% endif %}
+                                        {% else %}
+                                            {{ minutes }} minute{{ 's' if minutes != 1 else '' }}
+                                        {% endif %}
+                                    </span>
+                                </div>
+                            {% endif %}
+                            
+                            {% if game.median_playtime %}
+                                <div>
+                                    <span class="text-gray-400">Median Playtime:</span>
+                                    <span class="ml-2">
+                                        {% set hours = game.median_playtime // 60 %}
+                                        {% set minutes = game.median_playtime % 60 %}
+                                        {% if hours > 0 %}
+                                            {{ hours }} hour{{ 's' if hours != 1 else '' }}
+                                            {% if minutes > 0 %}{{ minutes }} minute{{ 's' if minutes != 1 else '' }}{% endif %}
+                                        {% else %}
+                                            {{ minutes }} minute{{ 's' if minutes != 1 else '' }}
+                                        {% endif %}
+                                    </span>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                
+                {% if game.languages %}
+                    <div class="mt-6">
+                        <h2 class="text-xl font-semibold mb-3">Supported Languages</h2>
+                        <div class="bg-gray-700 p-4 rounded-lg">
+                            <p>{{ game.languages }}</p>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

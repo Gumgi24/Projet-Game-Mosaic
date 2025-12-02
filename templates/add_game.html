@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Add Game - Game Backlog{% endblock %}
+
+{% block content %}
+<div class="px-4 sm:px-0">
+    <div class="max-w-2xl mx-auto">
+        <div class="bg-gray-800 rounded-lg shadow-lg p-6">
+            <h2 class="text-2xl font-bold mb-6">Add a New Game</h2>
+            
+            <form method="POST" class="space-y-6">
+                <div>
+                    <label for="steam_id" class="block text-sm font-medium text-gray-300 mb-2">
+                        Steam ID
+                    </label>
+                    <div class="mt-1">
+                        <input 
+                            type="text" 
+                            name="steam_id" 
+                            id="steam_id" 
+                            placeholder="Enter Steam ID (e.g., 730 for CS:GO)" 
+                            class="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                            required
+                        >
+                    </div>
+                    <p class="mt-2 text-sm text-gray-400">
+                        Find the Steam ID at the end of the game's Steam store URL
+                    </p>
+                </div>
+                
+                <div class="flex items-center">
+                    <button 
+                        type="submit" 
+                        class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                    >
+                        <i class="fas fa-plus mr-2"></i>Add Game to Backlog
+                    </button>
+                </div>
+            </form>
+            
+            <div class="mt-8 pt-6 border-t border-gray-700">
+                <h3 class="text-lg font-medium mb-3">How to find a Steam ID</h3>
+                <ol class="list-decimal list-inside space-y-2 text-sm text-gray-300">
+                    <li>Go to the game's Steam store page</li>
+                    <li>Look at the URL - it will look like: <code class="bg-gray-700 px-1 rounded">https://store.steampowered.com/app/730/Counter-Strike_Global_Offensive/</code></li>
+                    <li>The number after "/app/" is the Steam ID (in this example, 730)</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
